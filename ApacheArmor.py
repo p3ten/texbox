@@ -18,7 +18,7 @@ os.system(f"sed -i 's/^FileETag .*/FileETag None/g' {httpd_conf_path}")
 
 # Run Apache from a non-privileged account
 os.system("groupadd apache")
-os.system("useradd -g apache apache apache")
+os.system("useradd -g apache apache")
 os.system("chown -R apache:apache /opt/apache")
 os.system(f"sed -i 's/^User .*/User apache/g' {httpd_conf_path}")
 os.system(f"sed -i 's/^Group .*/Group apache/g' {httpd_conf_path}")
@@ -51,7 +51,7 @@ subprocess.run(["sudo", "sed", "-i", "/<IfModule headers_module>/a Header always
 # Add X-Frame-Options directive to httpd.conf
 with open('/etc/apache2/conf-available/security.conf', 'a') as f:
     f.write('\n<IfModule headers_module>\n')
-    f.write('  Header always set X-Frame-Options "SAMEORIGIN"\n')
+    f.write('Header always set X-Frame-Options "SAMEORIGIN"\n')
     f.write('</IfModule>\n')
 
 # Disable SSI in httpd.conf
