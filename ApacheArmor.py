@@ -111,7 +111,7 @@ os.system("mv coreruleset-3.3.0/crs-setup.conf.example /etc/modsecurity/crs-setu
 os.system("mv coreruleset-3.3.0/rules/ /etc/modsecurity/")
 
 # Edit Apache security2.conf file
-os.system("sudo nano /etc/apache2/mods-enabled/security2.conf")
+# os.system("sudo nano /etc/apache2/mods-enabled/security2.conf")
 # Ensure both the default ModSecurity and new CRS configuration files are listed
 os.system("echo 'IncludeOptional /etc/modsecurity/*.conf' | sudo tee -a /etc/apache2/mods-enabled/security2.conf")
 os.system("echo 'Include /etc/modsecurity/rules/*.conf' | sudo tee -a /etc/apache2/mods-enabled/security2.conf")
