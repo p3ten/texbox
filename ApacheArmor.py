@@ -67,7 +67,7 @@ with open('/etc/apache2/conf-available/security.conf', 'w') as f:
 # Add X-XSS-Protection header to httpd.conf
 with open('/etc/apache2/conf-available/security.conf', 'a') as f:
     f.write('\n<IfModule headers_module>\n')
-    f.write('  Header always set X-XSS-Protection "1; mode=block"\n')
+    f.write('Header always set X-XSS-Protection "1; mode=block"\n')
     f.write('</IfModule>\n')
 
 # Disable HTTP 1.0 protocol using mod_rewrite
