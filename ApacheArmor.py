@@ -54,15 +54,37 @@ with open('/etc/apache2/conf-available/security.conf', 'a') as f:
     f.write('Header always set X-Frame-Options "SAMEORIGIN"\n')
     f.write('</IfModule>\n')
 
-# Disable SSI in httpd.conf
-with open('/etc/apache2/conf-available/security.conf', 'r') as f:
-    conf_lines = f.readlines()
+# Path to the httpd.conf file
+httpd_conf_path = "/etc/apache2/conf-available/security.conf"
 
-with open('/etc/apache2/conf-available/security.conf', 'w') as f:
-    for line in conf_lines:
-        if '<Directory /opt/apache/htdocs>' in line:
-            line = line.rstrip() + ' -IncludesNOEXEC\n'
-        f.write(line)
+# Open the httpd.conf file using vi and search for the Directory block
+subprocess.run(["vi", "+/Directory", httpd_conf_path])
+
+# Add the Includes option to the Options directive inside the Directory block
+with open(httpd_conf_path, "r") as f:
+    lines = f.readlines()
+
+with open(httpd_conf_path, "w") as f:
+    for line in lines:
+        if line.strip().startswith("<Directory"):
+            f.write(line)
+            f.write("    Options -Indexes -Includes\n")
+        else:
+            f.write(line)
+
+# Restart the web server to apply the changes
+#subprocess.run(["systemctl", "restart", "httpd"])
+   
+    
+# Disable SSI in httpd.conf
+#with open('/etc/apache2/conf-available/security.conf', 'r') as f:
+#    conf_lines = f.readlines()
+
+#with open('/etc/apache2/conf-available/security.conf', 'w') as f:
+#    for line in conf_lines:
+#        if '<Directory /opt/apache/htdocs>' in line:
+#            line = line.rstrip() + ' -IncludesNOEXEC\n'
+#        f.write(line)
 
 # Add X-XSS-Protection header to httpd.conf
 with open('/etc/apache2/conf-available/security.conf', 'a') as f:
