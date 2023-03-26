@@ -8,10 +8,11 @@ httpd_conf_path = "/etc/apache2/conf-available/security.conf"
 server_tokens_directive = "ServerTokens Prod"
 server_signature_directive = "ServerSignature Off"
 
-# Open the httpd.conf file in vi editor
-os.system(f"vi {httpd_conf_path}")
+# Read in the file using cat, pipe it through sed to make the changes, and write the modified file back to disk
+os.system(f"cat {httpd_conf_path} | sed 's/^ServerTokens .*/ServerTokens Prod/g' | sed 's/^ServerSignature .*/ServerSignature Off/g' > {httpd_conf_path}.new")
 
-os.system(f"vi {httpd_conf_path} -c ':set paste' -c ':normal G' -c 'o' -c '{server_tokens_directive}' -c '{server_signature_directive}' -c ':wq'")
+# Replace the original file with the modified file
+os.rename(f"{httpd_conf_path}.new", httpd_conf_path)
 
 # Disable directory browser listing
 htdocs_path = "/var/www/html"
