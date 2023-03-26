@@ -3,9 +3,14 @@ import subprocess
 
 # Remove Server Version Banner
 httpd_conf_path = "/etc/apache2/conf-available/security.conf"
-os.system(f"sed -i 's/^ServerTokens .*/ServerTokens Prod/g' {httpd_conf_path}")
-os.system(f"sed -i 's/^ServerSignature .*/ServerSignature Off/g' {httpd_conf_path}")
-#os.system("service apache2 restart")
+
+server_tokens_directive = "ServerTokens Prod"
+server_signature_directive = "ServerSignature Off"
+
+# Open the httpd.conf file in vi editor
+os.system(f"vi {httpd_conf_path}")
+
+os.system(f"vi {httpd_conf_path} -c ':set paste' -c ':normal G' -c 'o' -c '{server_tokens_directive}' -c '{server_signature_directive}' -c ':wq'")
 
 # Disable directory browser listing
 htdocs_path = "/var/www/html"
