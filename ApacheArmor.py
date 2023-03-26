@@ -8,20 +8,29 @@ httpd_conf_path = "/etc/apache2/conf-available/security.conf"
 
 server_tokens_directive = "ServerTokens Prod"
 server_signature_directive = "ServerSignature Off"
+server_tokens_os_directive = "ServerTokens OS"
 
 # Open the httpd.conf file in nano editor
 child = pexpect.spawn(f"nano {httpd_conf_path}")
 child.expect("GNU nano")
-child.interact(input=b"\x01")  # Send the Ctrl-A key to the nano process to activate its menu
+child.sendintr()  # Send the interrupt signal (usually Ctrl-C) to activate the menu
+child.sendline("25")  # Send the "2" key to go to line 2 (the line with ServerTokens OS directive)
+child.sendline("^K")  # Send the "^K" key to delete the line
 child.sendline("X")  # Send the "X" key to save and exit the file
 
-# Append the ServerTokens directive to the end of the file
-with open(httpd_conf_path, "a") as httpd_conf:
-    httpd_conf.write(f"\n{server_tokens_directive}\n")
+# Replace the ServerTokens OS directive with the new one
+with open(httpd_conf_path, "r") as httpd_conf:
+    contents = httpd_conf.read()
+
+contents = contents.replace(server_tokens_os_directive, server_tokens_directive)
+
+with open(httpd_conf_path, "w") as httpd_conf:
+    httpd_conf.write(contents)
 
 # Append the ServerSignature directive to the end of the file
 with open(httpd_conf_path, "a") as httpd_conf:
     httpd_conf.write(f"{server_signature_directive}\n")
+
 
 # Disable directory browser listing
 htdocs_path = "/var/www/html"
