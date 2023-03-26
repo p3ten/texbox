@@ -106,7 +106,6 @@ os.system("service apache2 restart")
 # Download OWASP Core Rule Set
 os.system("wget https://github.com/coreruleset/coreruleset/archive/v3.3.0.zip")
 os.system("unzip v3.3.0.zip")
-os.system("mkdir /etc/modsecurity")
 os.system("mv coreruleset-3.3.0/crs-setup.conf.example /etc/modsecurity/crs-setup.conf")
 os.system("mv coreruleset-3.3.0/rules/ /etc/modsecurity/")
 
