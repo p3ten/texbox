@@ -25,7 +25,7 @@ os.system(f"sed -i 's/^Group .*/Group apache/g' {httpd_conf_path}")
 #os.system("service apache2 restart")
 
 # Protect binary and configuration directory permission
-os.system(f"chmod -R 750 {htdocs_path}bin {htdocs_path}conf")
+os.system(f"chmod -R 750 /bin {httpd_conf_path}")
 
 # System Settings Protection
 os.system(f"sed -i '/<Directory \\/>/,/<\\/Directory>/s/AllowOverride .*/AllowOverride None/g' {httpd_conf_path}")
