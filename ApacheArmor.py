@@ -19,7 +19,7 @@ os.system(f"sed -i 's/^FileETag .*/FileETag None/g' {httpd_conf_path}")
 # Run Apache from a non-privileged account
 os.system("groupadd apache")
 os.system("useradd -g apache apache")
-os.system("chown -R apache:apache /opt/apache")
+os.system("chown -R apache:apache /var/www")
 os.system(f"sed -i 's/^User .*/User apache/g' {httpd_conf_path}")
 os.system(f"sed -i 's/^Group .*/Group apache/g' {httpd_conf_path}")
 #os.system("service apache2 restart")
