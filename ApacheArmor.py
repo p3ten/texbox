@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import subprocess
+import pexpect
 
 # Remove Server Version Banner
 httpd_conf_path = "/etc/apache2/conf-available/security.conf"
@@ -8,8 +9,11 @@ httpd_conf_path = "/etc/apache2/conf-available/security.conf"
 server_tokens_directive = "ServerTokens Prod"
 server_signature_directive = "ServerSignature Off"
 
-# Open the httpd.conf file in vi editor
-os.system(f"vi {httpd_conf_path}")
+# Open the httpd.conf file in nano editor
+child = pexpect.spawn(f"nano {httpd_conf_path}")
+child.expect("GNU nano")
+child.interact(input=b"\x01")  # Send the Ctrl-A key to the nano process to activate its menu
+child.sendline("X")  # Send the "X" key to save and exit the file
 
 # Append the ServerTokens directive to the end of the file
 with open(httpd_conf_path, "a") as httpd_conf:
