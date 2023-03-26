@@ -8,7 +8,16 @@ httpd_conf_path = "/etc/apache2/conf-available/security.conf"
 server_tokens_directive = "ServerTokens Prod"
 server_signature_directive = "ServerSignature Off"
 
-os.system(f"vi {httpd_conf_path} -c ':set paste' -c ':normal G' -c 'o' -c '{server_tokens_directive}' -c '{server_signature_directive}' -c ':wq'")
+# Open the httpd.conf file in vi editor
+os.system(f"vi {httpd_conf_path}")
+
+# Append the ServerTokens directive to the end of the file
+with open(httpd_conf_path, "a") as httpd_conf:
+    httpd_conf.write(f"\n{server_tokens_directive}\n")
+
+# Append the ServerSignature directive to the end of the file
+with open(httpd_conf_path, "a") as httpd_conf:
+    httpd_conf.write(f"{server_signature_directive}\n")
 
 # Disable directory browser listing
 htdocs_path = "/var/www/html"
