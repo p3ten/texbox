@@ -34,11 +34,11 @@ with open(httpd_conf_path, "a") as httpd_conf:
 
 # Disable directory browser listing
 htdocs_path = "/var/www/html"
-os.system(f"sed -i '/<Directory {htdocs_path}>/,/<\\/Directory>/s/Options Indexes/Options -Indexes/g' {httpd_conf_path}")
+os.system(f"sed '/<Directory {htdocs_path}>/,/<\\/Directory>/s/Options Indexes/Options -Indexes/g' {httpd_conf_path}")
 #os.system("service apache2 restart")
 
 # Etag
-os.system(f"sed -i 's/^FileETag .*/FileETag None/g' {httpd_conf_path}")
+os.system(f"sed 's/^FileETag .*/FileETag None/g' {httpd_conf_path}")
 #os.system("service apache2 restart")
 
 # Run Apache from a non-privileged account
